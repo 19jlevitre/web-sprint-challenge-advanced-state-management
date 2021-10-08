@@ -2,7 +2,7 @@ import { FETCH_START } from "../actions"
 import { FETCH_SUCCESS } from "../actions"
 import { FETCH_FAIL } from "../actions"
 import { ADD_SMURF } from "../actions"
-import { ADD_TO_ERROR } from "../actions"
+import { SET_ERROR } from "../actions"
 export const initialState = {
     smurfs : [{
         id: '',
@@ -13,7 +13,7 @@ export const initialState = {
 
     }],
     appLoading: false,
-    error: ''
+    errorMessage: ''
 }
 
 const reducer = (state = initialState, action)=>{
@@ -23,31 +23,31 @@ const reducer = (state = initialState, action)=>{
                 ...state,
                 smurfs: [],
                 appLoading: true,
-                error: ''
+                errorMessage: ''
             }
         case FETCH_SUCCESS:
             return {
                 ...state,
                 smurfs: action.payload,
                 appLoading: false,
-                error: ''
+                errorMessage: ''
             }
         case FETCH_FAIL:
             return {
                 ...state,
                 smurfs: [],
                 appLoading: false,
-                error: action.payload
+                errorMessage: action.payload
             }
         case ADD_SMURF:
             return {
                 ...state,
-                smurfs: [...state.smurfs, action.payload]
+                smurfs: action.payload
             }
-        case ADD_TO_ERROR:
+        case SET_ERROR:
             return{
                 ...state,
-                error: state.error + action.payload
+                errorMessage: "name mus be 4 characters long"
             }
         default:
             return state;

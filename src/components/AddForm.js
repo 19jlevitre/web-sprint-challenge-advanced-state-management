@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { addSmurf } from '../actions';
-import { addToError } from '../actions';
+import { setError } from '../actions';
 const AddForm = (props) => {
     const [state, setState] = useState({
         name:"",
@@ -9,9 +9,9 @@ const AddForm = (props) => {
         nickname:"",
         description:""
     });
-
+const { errorMessage, setError, addSmurf } = props
     //remove when error state is added
-    const errorMessage = "";
+    
 
     const handleChange = e => {
         setState({
@@ -21,15 +21,14 @@ const AddForm = (props) => {
     }
 
     const handleSubmit = e => {
-        e.preventDefault();
-        if (state.name === "" || state.position === "" || state.nickname === "") {
-            //add in error action
-        }
+        
+        
+        addSmurf(state);
     }
 
     return(<section>
         <h2>Add Smurf</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={()=>handleSubmit}>
             <div className="form-group">
                 <label htmlFor="name">Name:</label><br/>
                 <input onChange={handleChange} value={state.name} name="name" id="name" />
@@ -53,8 +52,14 @@ const AddForm = (props) => {
         </form>
     </section>);
 }
+const mapStateToProps = state => {
+    return {
+        smurfs: state.smurfs,
+        errorMessage: state.errorMessage
 
-export default connect()(AddForm);
+    }
+}
+export default connect(mapStateToProps, { setError, addSmurf })(AddForm);
 
 //Task List:
 //1. Connect the errorMessage, setError and addSmurf actions to the AddForm component.
